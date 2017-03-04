@@ -1,17 +1,231 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset=utf-8 />
-<title>Mouse position</title>
-<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-<script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
-<link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script src="app_four.js"></script>
-</head>
-<body>
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Stack Multipurpose HTML Template</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Site Description Here">
+        <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="css/stack-interface.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="css/socicon.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="css/lightbox.min.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="css/flickity.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="css/iconsmind.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="css/theme.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="css/custom.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:200,300,400,400i,500,600,700%7CMerriweather:300,300i%7CMaterial+Icons" rel="stylesheet">
+        <script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
+        <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script> -->
+        <!-- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+        <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script> -->
+        <script src="app_four.js"></script>
+    </head>
+    <body class=" ">
 
-<p>yo</p>
+            <section class="cover imagebg height-80 text-center" data-overlay="3">
+                <div class="background-image-holder">
+                    <img alt="background" src="img/dinner.jpg" />
+                </div>
+                <div class="container pos-vertical-center">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <span class="h1 inline-block">Hungry for</span>
+                            <span class="h1 inline-block typed-text typed-text--cursor" data-typed-strings="food, burgers, fries, chinese, apples, chipotle, swizzler!"></span>
+                            <p class="lead">
+                                Get a recommendation!
+                            </p>
+                            <div class="boxed boxed--lg bg--white text-left">
+                                <form class="form--horizontal">
+                                    <div class="col-sm-8">
+                                        <input id="queryfood"type="text" name="location" placeholder="Food" />
+                                    </div>
+                                    <!-- <div class="col-sm-3">
+                                        <input type="text" name="location" placeholder="Street" />
+                                    </div> -->
+                                    <!-- <div class="col-sm-4">
+                                        <div class="input-select">
+                                            <select>
+                                                <option selected="" value="Default">What are you in the mood for?</option>
+                                                <option value="design">Chinese</option>
+                                                <option value="development">Thai</option>
+                                                <option value="management">American</option>
+                                                <option value="marketing">Indian</option>
+                                            </select>
+                                        </div>
+                                    </div> -->
+                                    <div class="col-sm-4">
+                                        <button id="submit" type="submit" class="btn btn--primary type--uppercase">Search</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end of row-->
+                </div>
+                <!--end of container-->
+            </section>
+            <section class="elements-title space--xxs text-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h6 class="type--uppercase">Choose where you want to eat!
+                            </h6>
+                        </div>
+                    </div>
+                    <!--end of row-->
+                </div>
+                <!--end of container-->
+            </section>
+            <!-- <section class="unpad ">
+                <div class="map-container border--round" data-maps-api-key="AIzaSyCfo_V3gmpPm1WzJEC9p_sRbgvyVbiO83M" data-address="123 Rathdowne street, Carlton Victoria" data-marker-title="Stack" data-map-style="[{&quot;featureType&quot;:&quot;landscape&quot;,&quot;stylers&quot;:[{&quot;hue&quot;:&quot;#FFBB00&quot;},{&quot;saturation&quot;:43.400000000000006},{&quot;lightness&quot;:37.599999999999994},{&quot;gamma&quot;:1}]},{&quot;featureType&quot;:&quot;road.highway&quot;,&quot;stylers&quot;:[{&quot;hue&quot;:&quot;#FFC200&quot;},{&quot;saturation&quot;:-61.8},{&quot;lightness&quot;:45.599999999999994},{&quot;gamma&quot;:1}]},{&quot;featureType&quot;:&quot;road.arterial&quot;,&quot;stylers&quot;:[{&quot;hue&quot;:&quot;#FF0300&quot;},{&quot;saturation&quot;:-100},{&quot;lightness&quot;:51.19999999999999},{&quot;gamma&quot;:1}]},{&quot;featureType&quot;:&quot;road.local&quot;,&quot;stylers&quot;:[{&quot;hue&quot;:&quot;#FF0300&quot;},{&quot;saturation&quot;:-100},{&quot;lightness&quot;:52},{&quot;gamma&quot;:1}]},{&quot;featureType&quot;:&quot;water&quot;,&quot;stylers&quot;:[{&quot;hue&quot;:&quot;#0078FF&quot;},{&quot;saturation&quot;:-13.200000000000003},{&quot;lightness&quot;:2.4000000000000057},{&quot;gamma&quot;:1}]},{&quot;featureType&quot;:&quot;poi&quot;,&quot;stylers&quot;:[{&quot;hue&quot;:&quot;#00FF6A&quot;},{&quot;saturation&quot;:-1.0989010989011234},{&quot;lightness&quot;:11.200000000000017},{&quot;gamma&quot;:1}]}]" data-map-zoom="15"></div>
+              <div id='map'></div>
+            </section> -->
+            <section style="position:relative; height:300px;">
 
-</body>
+              <div class='sidebar pad2'>Listing</div>
+              <div id='map-one' class='map pad2'>Map</div>
+            </section>
+
+
+
+
+            <footer class="space--sm footer-2 bg--dark ">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-3 col-xs-6">
+                            <h6 class="type--uppercase">Company</h6>
+                            <ul class="list--hover">
+                                <li>
+                                    <a href="#">About Company</a>
+                                </li>
+                                <li>
+                                    <a href="#">Our Team</a>
+                                </li>
+                                <li>
+                                    <a href="#">Locations</a>
+                                </li>
+                                <li>
+                                    <a href="#">History</a>
+                                </li>
+                                <li>
+                                    <a href="#">Work With Us</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-xs-6">
+                            <h6 class="type--uppercase">Developers</h6>
+                            <ul class="list--hover">
+                                <li>
+                                    <a href="#">Developer Center</a>
+                                </li>
+                                <li>
+                                    <a href="#">API Reference</a>
+                                </li>
+                                <li>
+                                    <a href="#">Downloads</a>
+                                </li>
+                                <li>
+                                    <a href="#">Tools</a>
+                                </li>
+                                <li>
+                                    <a href="#">Developer Blog</a>
+                                </li>
+                                <li>
+                                    <a href="#">Developer Forums</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-xs-6">
+                            <h6 class="type--uppercase">Support</h6>
+                            <ul class="list--hover">
+                                <li>
+                                    <a href="#">Help Center</a>
+                                </li>
+                                <li>
+                                    <a href="#">Live Chat</a>
+                                </li>
+                                <li>
+                                    <a href="#">Downloads</a>
+                                </li>
+                                <li>
+                                    <a href="#">Press Kit</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-xs-6">
+                            <h6 class="type--uppercase">Locations</h6>
+                            <ul class="list--hover">
+                                <li>
+                                    <a href="#">Melbourne</a>
+                                </li>
+                                <li>
+                                    <a href="#">London</a>
+                                </li>
+                                <li>
+                                    <a href="#">New York</a>
+                                </li>
+                                <li>
+                                    <a href="#">San Francisco</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--end of row-->
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <span class="type--fine-print">&copy;
+                                <span class="update-year"></span> Stack Inc.</span>
+                            <a class="type--fine-print" href="#">Privacy Policy</a>
+                            <a class="type--fine-print" href="#">Legal</a>
+                        </div>
+                        <div class="col-sm-6 text-right text-left-xs">
+                            <ul class="social-list list-inline list--hover">
+                                <li>
+                                    <a href="#">
+                                        <i class="socicon socicon-google icon icon--xs"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="socicon socicon-twitter icon icon--xs"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="socicon socicon-facebook icon icon--xs"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="socicon socicon-instagram icon icon--xs"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--end of row-->
+                </div>
+                <!--end of container-->
+            </footer>
+        </div>
+        <!--<div class="loader"></div>-->
+        <a class="back-to-top inner-link" href="#start" data-scroll-class="100vh:active">
+            <i class="stack-interface stack-up-open-big"></i>
+        </a>
+        <script src="js/jquery-2.1.4.min.js"></script>
+        <script src="js/flickity.min.js"></script>
+        <script src="js/parallax.js"></script>
+        <script src="js/typed.min.js"></script>
+        <script src="js/isotope.min.js"></script>
+        <script src="js/ytplayer.min.js"></script>
+        <script src="js/lightbox.min.js"></script>
+        <script src="js/granim.min.js"></script>
+        <script src="js/countdown.min.js"></script>
+        <script src="js/twitterfetcher.min.js"></script>
+        <script src="js/spectragram.min.js"></script>
+        <script src="js/smooth-scroll.min.js"></script>
+        <script src="js/scripts.js"></script>
+    </body>
 </html>
