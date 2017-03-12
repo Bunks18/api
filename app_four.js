@@ -5,31 +5,28 @@ var long = '-77.0369';
 var client_id = 'Y414UGHZIJ5SOPN5NT2WATWMYTTNJRNOIY2IJ0R0CREKLJX0';
 var client_secret = 'M1TVJLFZC1HKUNAUXOF1FW3W1IIP1T0RTEPEYGTSKV50OGNM';
 var v= '20170301';
-
-var step_count = 0;
-
 var map = null;
-// initialize the state object
-var state = {
-    items: []
-};
 
-//initialize geojson object
-var geojson = {
-  type: 'FeatureCollection',
-  features: [
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [          -77.0366048812866,
-                 38.89784666877921
-        ]
+//initialize  the state
+state = {
+  searches: [],
+  items: [],
+  index: 0,
+  geojson: {
+    type: 'FeatureCollection',
+    features: [
+      {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: ['',''
+          ]
+        },
+        properties: {}
       },
-      properties: {}
-    },
-  ]
-};
+    ]
+  }
+}
 
 // add item to state
 var addItem = function(state, item) {
@@ -45,6 +42,7 @@ function getLocation() {
     }
 }
 
+//get location
 function showPosition(position) {
     var latlon = position.coords.latitude + "," + position.coords.longitude;
     console.log(latlon);
@@ -72,7 +70,26 @@ function showPosition(position) {
     }
   }
 
-// get the data
+//create map
+  function createMap(lat,long, geojson){
+    map = L.mapbox.map('map-one', 'mapbox.streets').setView([lat, long], 14);
+    L.mapbox.accessToken = token;
+    var myLayer = L.mapbox.featureLayer().addTo(map);
+    myLayer.setGeoJSON(geojson);
+  }
+
+
+  //write previous results
+
+  function writeResults(state){
+    for (var i=0; i<state.searches.length; i++) {
+          var html='';
+          html+= '<a>'+state.searches[i]+'</a>';
+      }
+        document.getElementById('prev-search').innerHTML+= html;
+    }
+
+// Ajax API Call
 var GetData = function(state){
   $.ajax({
   dataType: "json",
@@ -87,46 +104,41 @@ var GetData = function(state){
           // contact = data.response.venues[i].contact.phone;
           url = data.response.venues[i].url;
           addItem(state,item);
-          geojson.features.push(mapLatLong(long,lat, title, url))
+          state.geojson.features.push(mapLatLong(long,lat, title, url))
         } //end of loop
-
-        createMap(lat,long, geojson)
+        createMap(lat,long, state.geojson)
   }
 });
-}
 
+//push query searches into state object
+ state.searches.push($('#queryfood').val());
 
+//render past results
+ writeResults(state);
 
-function createMap(lat,long, geojson){
-  map = L.mapbox.map('map-one', 'mapbox.streets').setView([lat, long], 14);
-  L.mapbox.accessToken = token;
-  var myLayer = L.mapbox.featureLayer().addTo(map);
-  myLayer.setGeoJSON(geojson);
 }
 
 
 //event handlers
 $(document).ready(function(){
+  //create map to start
   L.mapbox.accessToken = token;
     map = L.mapbox.map('map-one', 'mapbox.streets').setView([lat, long], 14);
-    // var myLayer = L.mapbox.featureLayer().addTo(map);
-    // myLayer.setGeoJSON(geojson);
 
+//click event for search
   $( "#submit" ).click(function(event) {
       event.preventDefault();
-      state.items = [];
-      geojson.features = [];
+      // state.items = [];
+      state.geojson.features = [];
       map.off();
       map.remove();
       GetData(state);
       $('#queryfood').val('');
 
+
+//scroll down to map after submit
       $('html, body').animate({
           scrollTop: $("#map-section").offset().top
       }, 2000);
-
-
-
-
     });
   });
