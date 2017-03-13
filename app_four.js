@@ -11,22 +11,15 @@ var map = null;
 state = {
   searches: [],
   items: [],
-  index: 0,
   geojson: {
     type: 'FeatureCollection',
-    features: [
-      {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: ['',''
-          ]
-        },
-        properties: {}
-      },
-    ]
+    features: []
   }
 }
+
+//
+
+
 
 // add item to state
 var addItem = function(state, item) {
@@ -51,7 +44,7 @@ function showPosition(position) {
   }
 
 // add markers to geojson object
-  function mapLatLong(lat,lng, title, url){
+  function mapLatLong(lat,lng, title, url, query){
     return {
       type: 'Feature',
       geometry: {
@@ -65,10 +58,14 @@ function showPosition(position) {
         title: title,
         description: "<a href="+ url + ">" + url + "</a>",
         'marker-color': '#63b6e5',
-        'marker-symbol': ''
+        'marker-symbol': '',
+        query: query
       }
     }
   }
+
+
+
 
 //create map
   function createMap(lat,long, geojson){
@@ -76,6 +73,28 @@ function showPosition(position) {
     L.mapbox.accessToken = token;
     var myLayer = L.mapbox.featureLayer().addTo(map);
     myLayer.setGeoJSON(geojson);
+//
+// var newArray = geojson.features.filter(function (el) {
+//     return el.geojson.features.properties.query === query;
+//   });
+
+// function filter(geojson,query) {
+//
+//   var newArray = {
+//         type: 'FeatureCollection',
+//         features: []
+//       };
+//
+// for (var i = 0; i < geojson.features.length ; i++) {
+//     if (geojson.features[i].properties.query === query) {
+//         newArray.push(geojson.features[i]);
+//     }
+// }
+//
+// }
+
+
+
   }
 
 
@@ -83,14 +102,29 @@ function showPosition(position) {
 
   function writeResults(state){
     for (var i=0; i<state.searches.length; i++) {
-          var html='';
-          html+= '<a>'+state.searches[i]+'</a>';
+          var html= '';
+          html+= '<a class="searchLink">'+ state.searches[i].search +'</a> <br>';
+
       }
-        document.getElementById('prev-search').innerHTML+= html;
+        $('#prev-search').append(html);
     }
 
 // Ajax API Call
-var GetData = function(state){
+var GetData = function(state, query){
+  console.log(query);
+  // state.searches.push({search:'', items: []});
+
+  var searchResults = {
+    search : query,
+    lat: '',
+    long: '',
+    geojson: {
+        type: 'FeatureCollection',
+        features: []
+    }
+  };
+
+
   $.ajax({
   dataType: "json",
   url: 'https://api.foursquare.com/v2/venues/search?ll='+lat + ',' + long + '&query=' + $('#queryfood').val() + '&client_id=' + client_id + '&client_secret=' + client_secret + '&v=20170301',
@@ -101,20 +135,42 @@ var GetData = function(state){
           lat = data.response.venues[i].location.lat;
           long = data.response.venues[i].location.lng;
           title = data.response.venues[i].name;
+          // query = $('#queryfood').val();
           // contact = data.response.venues[i].contact.phone;
           url = data.response.venues[i].url;
           addItem(state,item);
-          state.geojson.features.push(mapLatLong(long,lat, title, url))
+          // state.geojson.features.push(mapLatLong(long,lat, title, url, query))
+
+          searchResults.geojson.features.push(mapLatLong(long,lat,title,url,query))
         } //end of loop
-        createMap(lat,long, state.geojson)
+
+
+
+        console.log(searchResults);
+
+        createMap(lat,long, searchResults.geojson);
+
+
+        state.searches.push(searchResults);
+
+      } //end success
+    })
+.done(function(data){
+  writeResults(state);
+  });
+}
+
+
+function getPreviousSearch(state, searchText) {
+
+  for (var i = 0; i < state.searches.length; i++ ){
+  if (state.searches[i].search === searchText){
+
+    createMap(lat, long, state.searches[i].geojson);
+    break;
   }
-});
 
-//push query searches into state object
- state.searches.push($('#queryfood').val());
-
-//render past results
- writeResults(state);
+  }
 
 }
 
@@ -129,16 +185,22 @@ $(document).ready(function(){
   $( "#submit" ).click(function(event) {
       event.preventDefault();
       // state.items = [];
-      state.geojson.features = [];
+      // state.geojson.features = [];
       map.off();
       map.remove();
-      GetData(state);
+      query = $('#queryfood').val();
+      GetData(state, query);
       $('#queryfood').val('');
-
-
 //scroll down to map after submit
       $('html, body').animate({
           scrollTop: $("#map-section").offset().top
       }, 2000);
     });
+
+    $(document).on('click', '.searchLink', function(event){
+      event.preventDefault();
+      getPreviousSearch(state, $(this).text);
+      //
+    });
+
   });
