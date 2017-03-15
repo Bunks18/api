@@ -3743,7 +3743,7 @@ h1:not(:last-child),
 }
 h2,
 .h2 {
-  margin-bottom: 0.78787878787879em;
+  margin-bottom: 0;
 }
 h3,
 .h3 {
@@ -7356,4 +7356,8 @@ footer.footer-7 {
   .footer-7 .social-list {
     margin-top: 1.85714286em;
   }
+}
+
+#map-container{
+  padding-bottom:20px;
 }

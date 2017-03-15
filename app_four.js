@@ -83,7 +83,7 @@ function showPosition(position) {
   function writeResults(state){
     for (var i=0; i<state.searches.length; i++) {
           var html= '';
-          html = '<a class="searchLink">'+ state.searches[i].search +'</a> <br>';
+          html = '<a class="searchLink"><h3>'+ state.searches[i].search +'</h3></a>';
 
       }
         $('#prev-search').append(html);
@@ -152,6 +152,8 @@ var GetData = function(state, query){
 
 //event handlers
 $(document).ready(function(){
+
+  $('#map-container').hide();
   getLocation();
 
   //create map to start
@@ -160,6 +162,7 @@ $(document).ready(function(){
 
 //click event for search
   $( "#submit" ).click(function(event) {
+    $('#map-container').show();
       event.preventDefault();
       // state.items = [];
       // state.geojson.features = [];
