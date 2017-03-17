@@ -62,7 +62,7 @@ function showPosition(position) {
       },
       properties: {
         title: title,
-        description: "<a href="+ url + ">" + url + "</a>",
+        description: "<a href="+ url + " target='_blank'>" + url + "</a>",
         'marker-color': '#63b6e5',
         'marker-symbol': '',
         query: query
@@ -83,7 +83,7 @@ function showPosition(position) {
   function writeResults(state){
     for (var i=0; i<state.searches.length; i++) {
           var html= '';
-          html = '<a class="searchLink"><h3>'+ state.searches[i].search +'</h3></a>';
+          html = '<a class="searchLink"><h3>'+ state.searches[i].search +'</h2></a>';
 
       }
         $('#prev-search').append(html);
@@ -129,6 +129,9 @@ var GetData = function(state, query){
           long = data.response.venues[i].location.lng;
           title = data.response.venues[i].name;
           url = data.response.venues[i].url;
+          if (url == null){
+            url =  data.response.venues[i].location.address;
+          }
           addItem(state,item);
           searchResults.geojson.features.push(mapLatLong(long,lat,title,url,query))
         } //end of loop
